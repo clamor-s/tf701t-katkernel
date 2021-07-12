@@ -2799,6 +2799,26 @@ static void asusdec_dock_init_work_function(struct work_struct *dat)
 		ASUSPEC_INFO("dock_in_gpio : %d\n",gpio_get_value(asuspec_dock_in_gpio));
 		if(ec_chip->dock_status != 1){
 
+if (asusdec_dockram_read_data(0x01) < 0)
+	goto fail_to_access_ec;
+strcpy(ec_chip->dec_version, &ec_chip->i2c_dm_data[0]);
+ASUSPEC_NOTICE("DEC-Model: %s\n", ec_chip->dec_version);
+
+if (asusdec_dockram_read_data(0x02) < 0)
+	goto fail_to_access_ec;
+strcpy(ec_chip->dec_version, &ec_chip->i2c_dm_data[0]);
+ASUSPEC_NOTICE("DEC-FW Version: %s\n", ec_chip->dec_version);
+
+if (asusdec_dockram_read_data(0x03) < 0)
+	goto fail_to_access_ec;
+strcpy(ec_chip->dec_version, &ec_chip->i2c_dm_data[0]);
+ASUSPEC_NOTICE("DEC-Config format: %s\n", ec_chip->dec_version);
+
+if (asusdec_dockram_read_data(0x04) < 0)
+	goto fail_to_access_ec;
+strcpy(ec_chip->dec_version, &ec_chip->i2c_dm_data[0]);
+ASUSPEC_NOTICE("DEC-HW version: %s\n", ec_chip->dec_version);
+
 			if (asusdec_dockram_read_data(0x02) < 0){
 				goto fail_to_access_ec;
 			}
